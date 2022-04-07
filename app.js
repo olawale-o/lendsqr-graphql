@@ -10,18 +10,7 @@ const UserController = require('./controllers/users_controller');
 const UserService = require('./services/usersService');
 const resolvers = require('./resolvers');
 const typeDefs =  require('./typedefs');
-
-passport.use(
-  new GraphQLLocalStrategy({ passReqToCallback: true }, async (req, email, password, done) => {
-    try {
-      const { user } = await UserController.authenticateUser(email, password);
-      console.log(user);
-      done(null, user);
-    } catch (error) {
-      return done(error, false);
-    }
-  })
-);
+require('./auth/passport');
 
 async function startApolloServer(typeDefs, resolvers) {
   const server = new ApolloServer({
