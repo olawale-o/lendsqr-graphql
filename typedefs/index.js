@@ -17,8 +17,8 @@ const typeDefs = gql`
     id: String!
     first_name: String
     last_name: String
-    email: String!
-    balance: String!
+    email: String
+    balance: String
     created_at: String
     updated_at: String
   }
@@ -36,6 +36,7 @@ const typeDefs = gql`
   type Mutation {
     login(input: LoginInput): AuthPayload
     register(input: RegisterInput): AuthPayload
+    updateBalance(id: Int!, amount: Float!): User
   }
 `;
 
