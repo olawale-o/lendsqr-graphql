@@ -18,6 +18,23 @@ module.exports = {
     return user;
   },
 
+  updateBalance: async (filter, credentials) => {
+    const user = await db('user').where(filter).first('id', 'balance');
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const newBalance = parseFloat(user.balance) + parseFloat(credentials.balance);
+    const trans = await db.transaction(function(trx) {
+      return db('user').where('id', '=', user.id).update({ balance: newBalance });
+    }).then(function(row) {
+      const trans = db('user').where({ id: row }).first('id', 'first_name', 'last_name', 'balance', 'account_no');
+      return trans;
+    }).catch(function(err) {
+       return err;
+    });
+    return trans;
+  },
+
   getUsers: async () => {
     try {
         const users = await db.select('id', 'first_name', 'last_name', 'email', 'balance', 'created_at', 'updated_at').from('user');
