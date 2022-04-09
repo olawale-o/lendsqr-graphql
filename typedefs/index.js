@@ -16,12 +16,18 @@ const typeDefs = gql`
     updated_at: String
   }
 
+  type AuthPayload { 
+    user: User!
+    token: String!
+  }
+
   type Query {
     users: [User]
+    user: User
   }
 
   type Mutation {
-    login(input: LoginInput): User
+    login(input: LoginInput): AuthPayload
   }
 `;
 
