@@ -36,11 +36,12 @@ module.exports = {
 
   getUsers: async () => {
     try {
-        const users = await db.select('id', 'first_name', 'last_name', 'email', 'balance', 'created_at', 'updated_at').from('user');
-        console.log(users);
-        return users;
+      const users = await db.select('id', 'first_name', 'last_name', 'email', 'balance', 'created_at', 'updated_at').from('user');
+      return users;
     } catch(err) {
-        console.log(err);
+      console.log(err);
     }
   },
+
+  getUser: async (id) => await db('user').where({ id }).first('id', 'first_name', 'last_name', 'email', 'balance', 'created_at', 'updated_at'),
 };
