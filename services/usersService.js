@@ -20,4 +20,6 @@ module.exports = {
   allUsers: async () => {
     return await UserModel.getUsers();
   },
+
+  getUser: async (id) => await UserModel.getUser(id),
 };
