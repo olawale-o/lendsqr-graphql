@@ -5,6 +5,7 @@ const UserController = require('../controllers/users_controller');
 const resolvers = {
   Query: {
     users: async (parent, args, { dataSources }, context) => dataSources.UserService.allUsers(),
+    user: async (parent, { id }, { dataSources }, context) => dataSources.UserService.getUser(id),
   },
 
   Mutation: {
