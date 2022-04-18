@@ -25,13 +25,14 @@ module.exports = {
     }
     const newBalance = parseFloat(user.balance) + parseFloat(credentials.balance);
 
-    const details = await db.transaction(async (trx) => {
-      await db('user').where('id', '=', user.id).update({ balance: newBalance }).transacting(trx);
-      const trans = db('user').where(filter).first('id', 'first_name', 'last_name', 'balance', 'account_no');
-      return trans;
-    });
+    const rows = await db.transaction(async (trx) => await db('user').where('id', '=', user.id).update({ balance: newBalance }).transacting(trx));
 
-    return details;
+    if (rows > 0) {
+      const details = await db('user').where(filter).first('id', 'first_name', 'last_name', 'balance', 'account_no');
+      return details;
+    }
+
+    throw new Error('User not found');
   },
 
   getUsers: async () => {
